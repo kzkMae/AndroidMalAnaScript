@@ -1,2 +1,1 @@
-# AndroidMalAnaScript
-Analysing Script For Android Malware 
+# URLs scan by VirusTotal
