@@ -27,7 +27,9 @@ deadErrorEnd(checkNumber)
 #scan用のVirustotalのサイト
 url = "https://www.virustotal.com/vtapi/v2/url/scan"
 
-apikey = ""
+#VirusTotalのAPIキーを指定
+apikey = arguMain.VTapikey
+
 
 parameters = {"url":"http://www.virustotal.com",
               "apikey": apikey}

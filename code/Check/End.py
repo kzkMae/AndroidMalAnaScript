@@ -2,14 +2,14 @@
 
 import os.path
 
-#エラーチェック用関数
-def x():
-    return 0
-
 
 #CSVファイルがあるかどうかをチェック
-def isCsvfile():
-    return 0
+def isCsvfile(csvFile):
+    checkNum = 0
+    if not (os.path.isfile(csvFile)):
+        print "んなファイルねえよ(# ﾟДﾟ)"
+        checkNum = 1
+    return checkNum
 
 #拡張子がCSVで終わっているかをチェック
 def extCsvfile(csvFile):
@@ -24,4 +24,6 @@ def extCsvfile(csvFile):
 def argumentCheck(arguMain):
     checkNum = 0
     checkNum += extCsvfile(arguMain.CsvFile)
+    checkNum += isCsvfile(arguMain.CsvFile)
     return checkNum
+
