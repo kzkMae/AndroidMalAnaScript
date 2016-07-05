@@ -11,6 +11,7 @@ import json
 from Check.End import *
 from Check.DeadEnd import *
 from ReadCSVFile.ReadURLinCSVfile import *
+from VT.SandVT import *
 
 #引数や-hのオプションを定義
 parser = argparse.ArgumentParser(prog='Scan urls by VirusTotal',description='オプションと引数の説明',
@@ -47,14 +48,8 @@ parameters = {"url":"http://www.virustotal.com",
 for urlRow in urlsData:
     print urlRow[0]
     urlV = urlRow[0]
-    sendParas ={"url": urlV,
-                "apikey": apikey}
-    #エンコード
-    edata = urllib.urlencode(sendParas)
-    #VirusTotalに送信
-    requestData = urllib2.Request(url,edata)
-    response =urllib2.urlopen(requestData)
-    jsons = response.read()
+    #Json形式で受け取り
+    jsonsData = sandURLtoTV(url,urlV, apikey)
     #print jsons
     #print '\n'
 
