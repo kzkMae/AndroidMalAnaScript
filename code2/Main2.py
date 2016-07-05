@@ -8,6 +8,7 @@ import argparse
 #自作のファイルをインポート
 from CheckArgument import *
 from FindJson import *
+from JsonAnalyze import *
 
 #引数や-hのオプションを定義
 parser = argparse.ArgumentParser(prog='Jsonファイルを解析',description='オプションと引数の説明',
@@ -31,3 +32,6 @@ checkNumber, jsonList, jsonListSize = getJsonfileList(folderPath)
 print jsonList
 print jsonListSize
 
+for fname in jsonList:
+    detection, numofDetection = detectionCheck(fname)
+    print "%d , %d , %s" % (detection, numofDetection, fname)
