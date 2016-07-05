@@ -15,5 +15,7 @@ def readURLlist(csvFile):
     for row in urldata:
         urlList.append(row)
 
+    f.close()
+
 
     return urlList

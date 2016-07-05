@@ -27,3 +27,7 @@ def argumentCheck(arguMain):
     checkNum += isCsvfile(arguMain.CsvFile)
     return checkNum
 
+def checkURLNumber(urlsN, arguNum):
+    if urlsN > arguNum:
+        return 0
+    return 1

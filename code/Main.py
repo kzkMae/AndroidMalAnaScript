@@ -18,8 +18,12 @@ parser = argparse.ArgumentParser(prog='Scan urls by VirusTotal',description='オ
 parser.add_argument('-v','--version', action='version', version='%(prog)s version')
 parser.add_argument('VTapikey',type=str, help='手前のVirusTotalのAPIkeyを入力しろやい！, 型：%(type)s，String')
 parser.add_argument('CsvFile',type=str, help='URLsを記録されたCSVファイルを指定してネ, 型：%(type)s，String')
+parser.add_argument('urlNumber',type=int, help='結果が欲しいものを選んでね\r\n'
+                                               '1:スキャン依頼\r\n'
+                                               '2:レポート取得, 型：%(type)s，Integer')
 
 arguMain = parser.parse_args()
+
 
 #引数チェック
 checkNumber = argumentCheck(arguMain)
@@ -36,7 +40,15 @@ savePath = os.path.dirname(csvFPath)
 urlsData = readURLlist(csvFPath)
 
 #scan用のVirustotalのサイト
-url = "https://www.virustotal.com/vtapi/v2/url/scan"
+url = ["https://www.virustotal.com/vtapi/v2/url/scan",
+       "http://www.virustotal.com/vtapi/v2/url/report"]
+
+#URLの数を取得
+uNumber = arguMain.urlNumber
+urlNumber = len(url)
+checkNumber = checkURLNumber(urlNumber,uNumber)
+#エラーチェック
+deadErrorEnd(checkNumber)
 
 #VirusTotalのAPIキーを指定
 apikey = arguMain.VTapikey
@@ -45,12 +57,16 @@ apikey = arguMain.VTapikey
 parameters = {"url":"http://www.virustotal.com",
               "apikey": apikey}
 
+#カウンタ
+i = 0
 
 for urlRow in urlsData:
+    i = stopSendtoVT(i)
     print urlRow[0]
     urlV = urlRow[0]
     #Json形式で受け取り
-    jsonsData = sandURLtoTV(url,urlV, apikey)
+    #for j in range(urlNumber):
+    jsonsData = sandURLtoTV(url[uNumber],urlV, apikey, uNumber)
     #print jsons
     saveJsonFile(jsonsData, urlV, savePath)
     #print '\n'
