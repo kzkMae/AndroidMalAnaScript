@@ -5,10 +5,12 @@
 import urllib
 import urllib2
 import argparse
+import json
 
 #自作のファイルをインポート
 from Check.End import *
 from Check.DeadEnd import *
+from ReadCSVFile.ReadURLinCSVfile import *
 
 #引数や-hのオプションを定義
 parser = argparse.ArgumentParser(prog='Scan urls by VirusTotal',description='オプションと引数の説明',
@@ -24,6 +26,13 @@ checkNumber = argumentCheck(arguMain)
 #エラーチェック
 deadErrorEnd(checkNumber)
 
+#引数を取り出す
+#csvファイル
+csvFPath = arguMain.CsvFile
+
+#csvファイルからUrlを取り出す（リスト形式）
+urlsData = readURLlist(csvFPath)
+
 #scan用のVirustotalのサイト
 url = "https://www.virustotal.com/vtapi/v2/url/scan"
 
@@ -33,3 +42,20 @@ apikey = arguMain.VTapikey
 
 parameters = {"url":"http://www.virustotal.com",
               "apikey": apikey}
+
+
+for urlRow in urlsData:
+    print urlRow[0]
+    urlV = urlRow[0]
+    sendParas ={"url": urlV,
+                "apikey": apikey}
+    #エンコード
+    edata = urllib.urlencode(sendParas)
+    #VirusTotalに送信
+    requestData = urllib2.Request(url,edata)
+    response =urllib2.urlopen(requestData)
+    jsons = response.read()
+    #print jsons
+    #print '\n'
+
+
