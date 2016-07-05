@@ -2,16 +2,15 @@
 
 #CSVファイルにあるURLsをVirustotalに投げるプログラム
 
-import urllib
-import urllib2
 import argparse
-import json
+import os.path
 
 #自作のファイルをインポート
 from Check.End import *
 from Check.DeadEnd import *
 from ReadCSVFile.ReadURLinCSVfile import *
 from VT.SandVT import *
+from saveResultJson.VTresultJson import *
 
 #引数や-hのオプションを定義
 parser = argparse.ArgumentParser(prog='Scan urls by VirusTotal',description='オプションと引数の説明',
@@ -30,6 +29,8 @@ deadErrorEnd(checkNumber)
 #引数を取り出す
 #csvファイル
 csvFPath = arguMain.CsvFile
+#CSVファイルのあるDir名を取得
+savePath = os.path.dirname(csvFPath)
 
 #csvファイルからUrlを取り出す（リスト形式）
 urlsData = readURLlist(csvFPath)
@@ -51,6 +52,7 @@ for urlRow in urlsData:
     #Json形式で受け取り
     jsonsData = sandURLtoTV(url,urlV, apikey)
     #print jsons
+    saveJsonFile(jsonsData, urlV, savePath)
     #print '\n'
 
-
+print '無問題だゾ☆'
